@@ -32,3 +32,12 @@ void usart_putch(void *base, char ch)
 	*USART_TDR = ch;
 }
 
+void usart_puts(void *base, char *s)
+{
+	while(*s)
+	{
+		usart_putch(base, *s);
+		s++;
+	}
+}
+
