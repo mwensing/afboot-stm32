@@ -97,6 +97,16 @@ flash_stm32746g-eval: stm32746g-eval
 	  -c "reset run" \
 	  -c "shutdown"
 
+flash_stm32746g-disco: stm32746g-disco
+	$(OPENOCD) -f interface/stlink-v2-1.cfg -f board/stm327x6g_eval.cfg \
+	  -c "init" \
+	  -c "reset init" \
+	  -c "flash probe 0" \
+	  -c "flash info 0" \
+	  -c "flash write_image erase stm32746g-disco.bin 0x08000000" \
+	  -c "reset run" \
+	  -c "shutdown"
+
 flash_stm32h743i-eval: stm32h743i-eval
 	$(OPENOCD) -f interface/stlink-v2-1.cfg -f board/stm32h7xx_eval.cfg \
 	  -c "init" \
@@ -118,6 +128,9 @@ debug_stm32f469i-disco: stm32f469i-disco
 
 debug_stm32746g-eval: stm32746g-eval
 	$(GDB) stm32746g-eval.elf -ex "target remote :3333" -ex "monitor reset halt"
+
+debug_stm32746g-disco: stm32746g-disco
+	$(GDB) stm32746g-disco.elf -ex "target remote :3333" -ex "monitor reset halt"
 
 debug_stm32h743i-eval: stm32h743i-eval
 	$(GDB) stm32h743i-eval.elf -ex "target remote :3333" -ex "monitor reset halt"
