@@ -19,7 +19,7 @@ obj-y += gpio.o mpu.o qspi.o start_kernel.o
 obj-f4 += $(obj-y) usart-f4.o
 obj-f7 += $(obj-y) usart-f7.o
 
-all: stm32f429i-disco stm32429i-eval stm32f469i-disco stm32746g-eval stm32h743i-eval
+all: stm32f429i-disco stm32429i-eval stm32f469i-disco stm32746g-eval stm32746g-disco stm32h743i-eval
 
 %.o: %.c
 	$(CC) -c $(CFLAGS) -DKERNEL_ADDR=$(KERNEL_ADDR) -DDTB_ADDR=$(DTB_ADDR) $< -o $@
@@ -43,6 +43,11 @@ stm32746g-eval: stm32746g-eval.o $(obj-f7)
 	$(LD) -T stm32f429.lds $(LINKERFLAGS) -o stm32746g-eval.elf stm32746g-eval.o $(obj-f7)
 	$(OBJCOPY) -Obinary stm32746g-eval.elf stm32746g-eval.bin
 	$(SIZE) stm32746g-eval.elf
+
+stm32746g-disco: stm32746g-disco.o $(obj-f7)
+	$(LD) -T stm32f429.lds $(LINKERFLAGS) -o stm32746g-disco.elf stm32746g-disco.o $(obj-f7)
+	$(OBJCOPY) -Obinary stm32746g-disco.elf stm32746g-disco.bin
+	$(SIZE) stm32746g-disco.elf
 
 stm32h743i-eval: stm32h743i-eval.o $(obj-f7)
 	$(LD) -T stm32h743.lds $(LINKERFLAGS) -o stm32h743i-eval.elf stm32h743i-eval.o $(obj-f7)
